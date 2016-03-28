@@ -10,5 +10,5 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public interface ClotheInfoRepository extends MongoRepository<ClotheInfo, String> {
-
+    ClotheInfo findByName(String name);
 }

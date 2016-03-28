@@ -18,7 +18,7 @@ public class ClotheInfo {
 
     private Integer newPrice;
 
-    private File image;
+//    private File image;
 
     public String getName() {
         return name;
@@ -44,13 +44,13 @@ public class ClotheInfo {
         this.newPrice = newPrice;
     }
 
-    public File getImage() {
-        return image;
-    }
-
-    public void setImage(File image) {
-        this.image = image;
-    }
+//    public File getImage() {
+//        return image;
+//    }
+//
+//    public void setImage(File image) {
+//        this.image = image;
+//    }
 
     public String getId() {
         return id;
@@ -58,5 +58,10 @@ public class ClotheInfo {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Name: " + name + " OldPrice: " + oldPrice + " NewPrice: " + newPrice;
     }
 }

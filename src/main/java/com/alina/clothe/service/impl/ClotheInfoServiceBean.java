@@ -31,4 +31,9 @@ public class ClotheInfoServiceBean implements ClotheInfoService {
     public ClotheInfo find(String id) {
         return clotheInfoRepository.findOne(id);
     }
+
+    @Override
+    public ClotheInfo findByName(String name) {
+        return clotheInfoRepository.findByName(name);
+    }
 }
