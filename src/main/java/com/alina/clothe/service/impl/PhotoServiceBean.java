@@ -55,4 +55,12 @@ public class PhotoServiceBean implements PhotoService {
         }
         return null;
     }
+
+    @Override
+    public void remove(ObjectId photoId) {
+        if (photoId != null) {
+            GridFS gfsPhoto = new GridFS(mongoDbFactory.getDb(imageDB), namespace);
+            gfsPhoto.remove(photoId);
+        }
+    }
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -57,5 +58,18 @@ public class ClotheProcessor {
     public ModelAndView showAllClothe() {
         return new ModelAndView("list", "allClothe", clotheInfoService.findAll());
     }
+
+    @RequestMapping(value = "/edit/{clotheId}", method = RequestMethod.POST)
+    public ModelAndView edit(@PathVariable("clotheId") String clotheInfoId) {
+        return new ModelAndView("edit", "clothe", clotheInfoService.find(clotheInfoId));
+    }
+
+    @RequestMapping(value = "/remove/{clothe}", method = RequestMethod.POST)
+    public ModelAndView remove(@PathVariable("clothe") String clotheInfoId) {
+        clotheInfoService.remove(clotheInfoService.find(clotheInfoId));
+        return new ModelAndView("list", "allClothe", clotheInfoService.findAll());
+    }
+
+
 
 }

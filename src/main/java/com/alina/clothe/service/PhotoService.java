@@ -10,4 +10,6 @@ import java.util.Date;
 
 public interface PhotoService {
     ObjectId save(String photoPath, Date date);
+
+    void remove(ObjectId photoId);
 }

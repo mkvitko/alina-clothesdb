@@ -45,4 +45,10 @@ public class ClotheInfoServiceBean implements ClotheInfoService {
     public ClotheInfo findByName(String name) {
         return clotheInfoRepository.findByName(name);
     }
+
+    @Override
+    public void remove(ClotheInfo object) {
+        photoService.remove(object.getImageId());
+        clotheInfoRepository.delete(object);
+    }
 }

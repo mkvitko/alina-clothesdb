@@ -12,4 +12,6 @@ public interface CRUDService<T, K> {
     List<T> findAll();
 
     T find(K id);
+
+    void remove(T object);
 }

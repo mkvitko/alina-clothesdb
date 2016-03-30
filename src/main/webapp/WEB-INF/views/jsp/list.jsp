@@ -46,6 +46,16 @@
                     </td>
                     <td><a href="${clothe.urlToVKImage}">${clothe.urlToVKImage}</a></td>
                     <td>${clothe.addedDate}</td>
+                    <td>
+                        <form:form action="/edit/${clothe.id}" method="post">
+                            <input type="submit" value="Edit">
+                        </form:form>
+                    </td>
+                    <td>
+                        <form:form action="/remove/${clothe.id}" method="post">
+                            <input type="submit" value="Remove">
+                        </form:form>
+                    </td>
                 </tr>
             </c:forEach>
         </table>
