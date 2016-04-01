@@ -1,30 +1,26 @@
-package com.alina.clothe.entity;
+package com.alina.clothe.controller.dto;
 
+import com.alina.clothe.entity.ClotheCategory;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import java.util.Date;
-import java.util.Locale;
 
 /**
- * Created by mkvitko on 3/22/16.
+ * Created by mkvitko on 4/1/16.
  */
-public class ClotheInfo {
-
+public class ClotheInfoDTO {
     @Id
     private String id;
 
     private String name;
 
-    @DBRef
-    private ClotheCategory category;
+    private String categoryId;
 
     private Integer oldPrice;
 
     private Integer newPrice;
-
-    private ObjectId imageId;
 
     private String urlToVKImage;
 
@@ -40,12 +36,12 @@ public class ClotheInfo {
         this.name = name;
     }
 
-    public ClotheCategory getCategory() {
-        return category;
+    public String getCategory() {
+        return categoryId;
     }
 
-    public void setCategory(ClotheCategory category) {
-        this.category = category;
+    public void setCategory(String category) {
+        this.categoryId = category;
     }
 
     public Integer getOldPrice() {
@@ -62,14 +58,6 @@ public class ClotheInfo {
 
     public void setNewPrice(Integer newPrice) {
         this.newPrice = newPrice;
-    }
-
-    public ObjectId getImageId() {
-        return imageId;
-    }
-
-    public void setImageId(ObjectId imageId) {
-        this.imageId = imageId;
     }
 
     public String getId() {

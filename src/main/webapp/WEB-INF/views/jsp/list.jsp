@@ -12,14 +12,17 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
-    <title>All clothe</title>
+    <title>Вся одежда</title>
 </head>
 <body>
     <div align="center">
-        <h1>All clothe</h1>
+        <h1>Вся одежда</h1>
         <br>
         <form action="${pageContext.request.contextPath}/newClothe" method="get">
-            <input type="submit" value="Add new clothe"><br>
+            <input type="submit" value="Добавить новую одежду"><br>
+        </form>
+        <form action="${pageContext.request.contextPath}/categories" method="get">
+            <input type="submit" value="Просмотреть категории"><br>
         </form>
         <style>
             td {
@@ -28,16 +31,20 @@
         </style>
         <table border="1">
             <tr>
-                <td>Name</td>
-                <td>Old Price</td>
-                <td>New Price</td>
-                <td>Photo</td>
-                <td>VK link</td>
-                <td>Added date</td>
+                <td>Название</td>
+                <td>Категория</td>
+                <td>Старая цена</td>
+                <td>Новая цена</td>
+                <td>Фото</td>
+                <td>Ссылка VK</td>
+                <td>Дата добавления</td>
+                <td>Редактировать</td>
+                <td>Удалить</td>
             </tr>
             <c:forEach var="clothe" items="${allClothe}">
                 <tr>
                     <td>${clothe.name}</td>
+                    <td>${clothe.category.name}</td>
                     <td>${clothe.oldPrice}</td>
                     <td>${clothe.newPrice}</td>
                     <td>
@@ -48,12 +55,12 @@
                     <td>${clothe.addedDate}</td>
                     <td>
                         <form:form action="/edit/${clothe.id}" method="post">
-                            <input type="submit" value="Edit">
+                            <input type="submit" value="Редактировать">
                         </form:form>
                     </td>
                     <td>
                         <form:form action="/remove/${clothe.id}" method="post">
-                            <input type="submit" value="Remove">
+                            <input type="submit" value="Удалить">
                         </form:form>
                     </td>
                 </tr>

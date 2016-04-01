@@ -33,22 +33,22 @@
 </head>
 <body>
 <div align="center">
-    <h1>Welcome to clothe collection!</h1>
+    <h1>Добро пожаловать в коллекцию одежды!</h1>
     <br>
-    <h2>Please authorize to get access</h2>
+    <h2>Пожалуйста, авторизируйтесь чтобы получить доступ к системе</h2>
     <br>
     <form:form name="signin" action="${pageContext.request.contextPath}/login" method="POST" >
         <table>
             <tr>
                 <td>
-                    <label style="font-weight: bold;" for="username">Login</label>
+                    <label style="font-weight: bold; margin-right: 9px;" for="username">Логин</label>
                     <input type=username name="username" id="username" autofocus/>
                 </td>
             </tr>
 
             <tr>
                 <td>
-                    <label style="font-weight: bold;" for="password">Password</label>
+                    <label style="font-weight: bold;" for="password">Пароль</label>
                     <input type=password name="password" id="password"/>
                 </td>
             </tr>
@@ -59,7 +59,7 @@
             </c:if>
         </table>
         <br><br>
-        <input type="submit" value="Sign In" onclick="return searchtxt()?true:false;" > <br>
+        <input type="submit" value="Войти" onclick="return searchtxt()?true:false;" > <br>
     </form:form>
 </div>
 </body>

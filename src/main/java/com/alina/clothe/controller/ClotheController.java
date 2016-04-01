@@ -1,6 +1,10 @@
 package com.alina.clothe.controller;
 
+import com.alina.clothe.controller.dto.ClotheInfoDTO;
+import com.alina.clothe.controller.dto.DTOConverter;
+import com.alina.clothe.entity.ClotheCategory;
 import com.alina.clothe.entity.ClotheInfo;
+import com.alina.clothe.service.ClotheCategoryService;
 import com.alina.clothe.service.ClotheInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,36 +21,44 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.annotation.MultipartConfig;
 import javax.validation.Valid;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Created by mkvitko on 3/22/16.
  */
 @Controller
-public class ClotheProcessor {
+public class ClotheController {
 
     @Autowired
     private ClotheInfoService clotheInfoService;
 
-    @Value("${images.dir}")
-    private String imagesDir;
+    @Autowired
+    private ClotheCategoryService clotheCategoryService;
+
+    @Autowired
+    private DTOConverter dtoConverter;
 
     @RequestMapping(value = "/newClothe", method = RequestMethod.GET)
     public ModelAndView showForm() {
-        return new ModelAndView("add", "clotheInfo", new ClotheInfo());
+        ModelAndView modelAndView = new ModelAndView("add", "clotheInfo", new ClotheInfoDTO());
+        modelAndView.addObject("categories", clotheCategoryService.findAll());
+        return modelAndView;
     }
 
     @RequestMapping(value = "/addClothe", method = RequestMethod.POST)
-    public ModelAndView submit(@Valid @ModelAttribute("clotheInfo") ClotheInfo clotheInfo,
+    public ModelAndView submit(@Valid @ModelAttribute("clotheInfo") ClotheInfoDTO clotheInfoDTO,
                                @RequestParam("imageFile") MultipartFile file, BindingResult result, ModelMap model) {
         if (result.hasErrors()) {
             return new ModelAndView("error");
         }
+        ClotheInfo clotheInfo = dtoConverter.convertClotheInfoFrom(clotheInfoDTO);
         model.addAttribute("name", clotheInfo.getName());
         model.addAttribute("oldPrice", clotheInfo.getOldPrice());
         model.addAttribute("newPrice", clotheInfo.getNewPrice());
         model.addAttribute("urlToVKImage", clotheInfo.getUrlToVKImage());
         if (!file.isEmpty()) {
-            clotheInfo.setImagePath(imagesDir + file.getOriginalFilename());
+            clotheInfo.setImagePath(clotheInfo.getCategory().getPath() + file.getOriginalFilename());
             clotheInfoService.save(clotheInfo);
             return new ModelAndView("redirect:/listClothe");
         } else {
@@ -61,7 +73,26 @@ public class ClotheProcessor {
 
     @RequestMapping(value = "/edit/{clotheId}", method = RequestMethod.POST)
     public ModelAndView edit(@PathVariable("clotheId") String clotheInfoId) {
-        return new ModelAndView("edit", "clothe", clotheInfoService.find(clotheInfoId));
+        ClotheInfo clotheInfo = clotheInfoService.find(clotheInfoId);
+        ModelAndView modelAndView = new ModelAndView("edit", "clotheInfo", dtoConverter.convertClotheInfoTo(clotheInfo));
+        modelAndView.addObject("categories", clotheCategoryService.findAll());
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/editClothe", method = RequestMethod.POST)
+    public ModelAndView edit(@Valid @ModelAttribute("clotheInfo") ClotheInfoDTO clotheInfoDTO,
+                             @RequestParam("imageFile") MultipartFile file, BindingResult result) {
+        if (result.hasErrors()) {
+            return new ModelAndView("error");
+        }
+        ClotheInfo clotheInfo = dtoConverter.convertClotheInfoFrom(clotheInfoDTO);
+        if (!file.isEmpty()) {
+            clotheInfo.setImagePath(clotheInfo.getCategory().getPath() + file.getOriginalFilename());
+        } else {
+            clotheInfo.setImagePath(clotheInfoService.find(clotheInfo.getId()).getImagePath());
+        }
+        clotheInfoService.save(clotheInfo);
+        return new ModelAndView("redirect:/listClothe");
     }
 
     @RequestMapping(value = "/remove/{clothe}", method = RequestMethod.POST)

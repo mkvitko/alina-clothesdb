@@ -6,6 +6,7 @@ import com.alina.clothe.service.ClotheInfoService;
 import com.alina.clothe.service.PhotoService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -17,6 +18,7 @@ import java.util.List;
 @Service
 public class ClotheInfoServiceBean implements ClotheInfoService {
 
+    private static final String SORT_PROPERTY = "addedDate";
     @Autowired
     private ClotheInfoRepository clotheInfoRepository;
 
@@ -25,6 +27,9 @@ public class ClotheInfoServiceBean implements ClotheInfoService {
 
     @Override
     public void save(ClotheInfo object) {
+        if (object.getId() != null) {
+            clotheInfoRepository.delete(object);
+        }
         object.setAddedDate(new Date());
         ObjectId imageId = photoService.save(object.getImagePath(), object.getAddedDate());
         object.setImageId(imageId);
@@ -33,7 +38,7 @@ public class ClotheInfoServiceBean implements ClotheInfoService {
 
     @Override
     public List<ClotheInfo> findAll() {
-        return clotheInfoRepository.findAll();
+        return clotheInfoRepository.findAll(new Sort(Sort.Direction.DESC, SORT_PROPERTY));
     }
 
     @Override
