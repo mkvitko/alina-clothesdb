@@ -5,8 +5,12 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.6/css/bootstrap.min.css'>
 </head>
 <body>
+<script type="text/javascript" src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="webjars/jquery/2.2.3/jquery.min.js"></script>
 <h3>Добавить новую одежду</h3>
 <form:form method="POST" action="/addClothe" modelAttribute="clotheInfo" enctype="multipart/form-data">
     <table>
